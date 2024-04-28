@@ -88,28 +88,38 @@ $(() => {
             containsZero = result.filter(number => number === 0).length,
             containsTen = result.filter(number => number === 10).length;
 
+        // check if results contains skulls
         if (result.includes(0)) {
+            let multiplier = number => {
+                if (total < 0) {
+                    return number * 10
+                }
+                else {
+                    return number
+                }
+            }
             // No winnings affects your total, otherwise affects your earned winnings
             if (amount <= 0) {
                 if (containsZero === 3) {
                     updateAmount = (0 - total);
                 }
                 // returns a negative number
-                updateAmount = (containsZero === 2) ? (total * 0.25) - total : (total * 0.5) - total;
+                updateAmount = (containsZero === 2) ? (total * multiplier(0.25)) - total : (total * multiplier(0.5)) - total;
             }
             else {
-                updateAmount = (containsZero === 2) ? amount * 0.25 : amount * 0.5;
+                updateAmount = (containsZero === 2) ? amount * multiplier(0.25) : amount * multiplier(0.5);
             }
         } 
+        // check if results contains bombs
         if (result.includes(10)) {
             if (containsTen === 3) {
-                updateAmount -= 5000;
+                updateAmount -= 1000;
             }
             else if (containsTen === 2) {
-                updateAmount -= 2000;
+                updateAmount -= 750;
             }
             else {
-                updateAmount -= 1000;
+                updateAmount -= 500;
             }
         }
 
